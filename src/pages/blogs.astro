@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+const links = {
+    'https://medium.com/@nageswarchedella/soaring-under-scrutiny-the-triumph-of-project-hawk-3a01f7ab3ab1':'Soaring Under Scrutiny: The Triumph of Project Hawk', 
+    'https://medium.com/@nageswarchedella/comparing-fault-tolerance-elixir-beam-vs-nestjs-node-js-f21426d3e3ad':'Comparing Fault Tolerance: Elixir/BEAM vs NestJS/Node.js', 
+    'https://medium.com/@nageswarchedella/the-rise-of-asha-from-village-girl-to-president-e963be41c4a8':`The Rise of Asha: From Village Girl to President`,
+     'https://medium.com/@nageswarchedella/beyond-the-village-boundaries-6d0860acbe5c':'Beyond the Village Boundaries', 
+     'https://medium.com/@nageswarchedella/reflections-in-chrome-c24e064df26f':'Reflections in Chrome',
+     'https://medium.com/@nageswarchedella/the-mirage-of-menus-2eee95b1e117':'The Mirage of Menus',
+     'https://medium.com/@nageswarchedella/my-journey-with-rust-and-cryptography-has-started-5ef200484eb4': 'My Journey with Rust and Cryptography has Started',
+     };
+---
+
+<Layout title="Blogs" includeLayoutBody={true}>
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold text-center">Blogs</h1>
+    <p class="text-center">Here are some of the blogs I have written.</p>
+    <ul class="list-disc list-inside mt-4 space-y-2 max-w-2xl mx-auto">
+      {Object.entries(links).map(([url, title]) => (
+        <li>
+          <a href={url} target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700 hover:underline">
+            {title}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href="/" class="text-center">Back to Home</a>
+  </div>
+</Layout>

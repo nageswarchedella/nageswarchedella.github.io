@@ -1,0 +1,38 @@
+---
+const currentPath = Astro.url.pathname;
+---
+<script>
+  import { navigate } from 'astro:transitions/client';
+
+  // Navigate to the selected option automatically.
+  const selectElement = document.querySelector('select');
+  selectElement.onchange = (event) => {
+    let href = event.target.value;
+    navigate(href);
+  };
+
+  // Set the selected option based on the current URL
+  const currentPath = window.location.pathname;
+  const options = selectElement.options;
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].value === currentPath) {
+      options[i].selected = true;
+      break;
+    }
+  }
+</script>
+<select class="p-1">
+  <option value="/" >Home</option>
+  <option value="/badges" >Badges</option>
+  <option value="/blogs" >Blogs</option>
+
+  <!-- <option value="/about">About</option>
+  <option value="/contact">Contact</option> -->
+</select>
+
+<style>
+  select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+</style>

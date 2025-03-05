@@ -94,6 +94,8 @@ const currentPath = Astro.url.pathname;
 
       try {
         await navigate(newPath);
+        select.value = newPath;
+
       } catch (error) {
         console.error('Navigation failed:', error);
         select.value = window.location.pathname;

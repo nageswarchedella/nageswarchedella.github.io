@@ -1,38 +1,56 @@
 ---
 const currentPath = Astro.url.pathname;
 ---
-<script>
-  import { navigate } from 'astro:transitions/client';
 
-  // Navigate to the selected option automatically.
-  const selectElement = document.querySelector('select');
-  selectElement.onchange = (event) => {
-    let href = event.target.value;
-    navigate(href);
-  };
-
-  // Set the selected option based on the current URL
-  const currentPath = window.location.pathname;
-  const options = selectElement.options;
-  for (let i = 0; i < options.length; i++) {
-    if (options[i].value === currentPath) {
-      options[i].selected = true;
-      break;
-    }
-  }
-</script>
-<select class="p-1">
-  <option value="/" >Home</option>
-  <option value="/badges" >Badges</option>
-  <option value="/blogs" >Blogs</option>
+<select class="p-1" aria-label="Navigation menu" data-current-path={currentPath}>
+  <option value="/">Home</option>
+  <option value="/badges">Badges</option>
+  <option value="/blogs">Blogs</option>
 
   <!-- <option value="/about">About</option>
   <option value="/contact">Contact</option> -->
 </select>
 
+<script>
+  import { navigate } from 'astro:transitions/client';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectElement = document.querySelector('select');
+    if (!selectElement) return;
+
+    const currentPath = selectElement.dataset.currentPath;
+
+    // Set initial selected option
+    const options = selectElement.options;
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].value === currentPath) {
+        options[i].selected = true;
+        break;
+      }
+    }
+
+    // Handle navigation
+    selectElement.addEventListener('change', (event) => {
+      const target = event.target as HTMLSelectElement;
+      const href = target.value;
+      navigate(href);
+    });
+  });
+</script>
+
 <style>
   select {
     border: 1px solid #ccc;
     border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: transparent;
+  }
+
+  /* Dark mode support */
+  :global(html.dark) select {
+    color: #f0f0f0;
+    border-color: #444;
   }
 </style>

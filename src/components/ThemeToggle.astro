@@ -3,16 +3,13 @@ let theme = 'light';
 if (typeof localStorage !== 'undefined') {
   theme = localStorage.getItem('theme') || 'light';
 }
-const isDarkMode = theme === 'dark';
 ---
 
 <button
-    onclick={() => {
-        theme.value = theme.value === 'light' ? 'dark' : 'light';
-    }}
+    id="themeToggle"
     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 >
-    {theme.value === 'light' ? 'Dark Mode' : 'Light Mode'}
+    {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
 </button>
 
 <style>
@@ -24,20 +21,19 @@ const isDarkMode = theme === 'dark';
 </style>
 
 <script is:inline>
-  const themeButton = document.querySelector('button');
-  const html = document.querySelector('html');
-  let currentTheme = localStorage.getItem('theme') || 'light';
-  html.classList.add(currentTheme);
-  themeButton.addEventListener('click', () => {
-    if (currentTheme === 'light') {
-      currentTheme = 'dark';
-    } else {
-      currentTheme = 'light';
-    }
-    html.classList.remove('light');
-    html.classList.remove('dark');
+    const themeToggle = document.querySelector('#themeToggle');
+    const html = document.querySelector('html');
+    let currentTheme = localStorage.getItem('theme') || 'light';
+
+    // Set initial theme
     html.classList.add(currentTheme);
-    localStorage.setItem('theme', currentTheme);
-    themeButton.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
-  });
+    themeToggle.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
+
+    themeToggle.addEventListener('click', () => {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        html.classList.remove('light', 'dark');
+        html.classList.add(currentTheme);
+        localStorage.setItem('theme', currentTheme);
+        themeToggle.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
+    });
 </script>

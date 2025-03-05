@@ -1,82 +1,83 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.astro';
-interface Props {
-	title: string;
-}
 import Form from "../components/Form.astro";
+
+interface Props {
+    title: string;
+    includeToggle?: boolean;
+    includeTheme?: boolean;
+    includeLayoutBody?: boolean;
+}
 
 const { title, includeToggle = true, includeTheme = true, includeLayoutBody = true} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class={ThemeToggle.theme}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		{includeToggle && <Form />}
-		{includeTheme && <ThemeToggle />}
-		{includeLayoutBody ? <main>
-			<slot />
-		</main> : <slot />}
-	</body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body>
+        {includeToggle && <Form />}
+        {includeTheme && <ThemeToggle />}
+        {includeLayoutBody ? <main><slot /></main> : <slot />}
+    </body>
 </html>
+
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html.dark {
-		color: #f0f0f0;
-		background: #13151a;	
-	}
-	html.dark a {
-		color: #f0f0f0;
-	}
-	html.light {
-		background: #f0f0f0;
-	}
-	html.light a {
-		color: blue;
-	}
-	html.light a:visited {
-		color: forestgreen;
-		text-decoration-color: hotpink;
-	}
-	html {
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
-	a {
-		text-decoration: underline;
-	}
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		font-size: 20px;
-		line-height: 1.6;
-	}
+    :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+            45deg,
+            rgb(var(--accent)),
+            rgb(var(--accent-light)) 30%,
+            white 60%
+        );
+    }
+    html.dark {
+        color: #f0f0f0;
+        background: #13151a;	
+    }
+    html.dark a {
+        color: #f0f0f0;
+    }
+    html.light {
+        background: #f0f0f0;
+    }
+    html.light a {
+        color: blue;
+    }
+    html.light a:visited {
+        color: forestgreen;
+        text-decoration-color: hotpink;
+    }
+    code {
+        font-family:
+            Menlo,
+            Monaco,
+            Lucida Console,
+            Liberation Mono,
+            DejaVu Sans Mono,
+            Bitstream Vera Sans Mono,
+            Courier New,
+            monospace;
+    }
+    a {
+        text-decoration: underline;
+    }
+    main {
+        margin: auto;
+        padding: 1rem;
+        width: 800px;
+        max-width: calc(100% - 2rem);
+        font-size: 20px;
+        line-height: 1.6;
+    }
 </style>

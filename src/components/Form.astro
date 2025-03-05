@@ -19,10 +19,12 @@ const currentPath = Astro.url.pathname;
     top: 1rem;
     left: 1rem;
     z-index: 100;
+    display: inline-block;
   }
 
   .nav-select {
     appearance: none;
+    -webkit-appearance: none;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
@@ -31,6 +33,7 @@ const currentPath = Astro.url.pathname;
     cursor: pointer;
     min-width: 150px;
     color: #333;
+    transition: all 0.2s ease;
   }
 
   .nav-select-wrapper::after {
@@ -41,9 +44,9 @@ const currentPath = Astro.url.pathname;
     transform: translateY(-50%);
     pointer-events: none;
     color: #666;
+    transition: color 0.2s ease;
   }
 
-  /* Hover and Focus states */
   .nav-select:hover {
     border-color: #666;
   }
@@ -54,11 +57,15 @@ const currentPath = Astro.url.pathname;
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
   }
 
-  /* Dark mode */
+  /* Dark mode styles */
   :global(html.dark) .nav-select {
     background-color: #1a1a1a;
     border-color: #444;
     color: #fff;
+  }
+
+  :global(html.dark) .nav-select option {
+    background-color: #1a1a1a;
   }
 
   :global(html.dark) .nav-select-wrapper::after {
@@ -71,20 +78,22 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
-  function handleNavigation() {
-    const select = document.querySelector('.nav-select');
+  import { navigate } from 'astro:transitions/client';
+
+  function initNavigation() {
+    const select = document.querySelector('.nav-select') as HTMLSelectElement;
     if (!select) return;
 
     // Set initial value
     select.value = window.location.pathname;
 
+    // Handle navigation
     select.addEventListener('change', async (event) => {
       const target = event.target as HTMLSelectElement;
-      if (!target) return;
+      const newPath = target.value;
 
       try {
-        const url = new URL(target.value, window.location.origin);
-        window.location.href = url.toString();
+        await navigate(newPath);
       } catch (error) {
         console.error('Navigation failed:', error);
         select.value = window.location.pathname;
@@ -92,7 +101,6 @@ const currentPath = Astro.url.pathname;
     });
   }
 
-  // Initialize navigation
-  document.addEventListener('DOMContentLoaded', handleNavigation);
-  document.addEventListener('astro:page-load', handleNavigation);
+  // Initialize on page load and transitions
+  document.addEventListener('astro:page-load', initNavigation, { once: false });
 </script>

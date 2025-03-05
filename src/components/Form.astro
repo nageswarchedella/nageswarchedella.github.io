@@ -4,9 +4,8 @@ const currentPath = Astro.url.pathname;
 
 <div class="nav-select-wrapper">
   <select 
-    class="nav-select p-1" 
-    aria-label="Navigation menu" 
-    data-current-path={currentPath}
+    class="nav-select"
+    aria-label="Navigation menu"
   >
     <option value="/" selected={currentPath === "/"}>Home</option>
     <option value="/badges" selected={currentPath === "/badges"}>Badges</option>
@@ -14,69 +13,86 @@ const currentPath = Astro.url.pathname;
   </select>
 </div>
 
+<style>
+  .nav-select-wrapper {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+  }
+
+  .nav-select {
+    appearance: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    min-width: 150px;
+    color: #333;
+  }
+
+  .nav-select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+  }
+
+  /* Hover and Focus states */
+  .nav-select:hover {
+    border-color: #666;
+  }
+
+  .nav-select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  }
+
+  /* Dark mode */
+  :global(html.dark) .nav-select {
+    background-color: #1a1a1a;
+    border-color: #444;
+    color: #fff;
+  }
+
+  :global(html.dark) .nav-select-wrapper::after {
+    color: #888;
+  }
+
+  :global(html.dark) .nav-select:hover {
+    border-color: #666;
+  }
+</style>
+
 <script>
-  import { navigate } from 'astro:transitions/client';
+  function handleNavigation() {
+    const select = document.querySelector('.nav-select');
+    if (!select) return;
 
-  function initializeNavigation() {
-    const selectElement = document.querySelector('.nav-select') as HTMLSelectElement;
-    if (!selectElement) {
-      console.error('Navigation select element not found');
-      return;
-    }
+    // Set initial value
+    select.value = window.location.pathname;
 
-    // Set initial value from URL
-    const currentPath = window.location.pathname;
-    selectElement.value = currentPath;
-
-    // Handle navigation
-    selectElement.addEventListener('change', async (event) => {
+    select.addEventListener('change', async (event) => {
       const target = event.target as HTMLSelectElement;
-      const href = target.value;
+      if (!target) return;
+
       try {
-        await navigate(href);
+        const url = new URL(target.value, window.location.origin);
+        window.location.href = url.toString();
       } catch (error) {
         console.error('Navigation failed:', error);
-        // Reset to current path if navigation fails
-        selectElement.value = currentPath;
+        select.value = window.location.pathname;
       }
     });
   }
 
-  // Initialize on DOM load
-  document.addEventListener('DOMContentLoaded', initializeNavigation);
-  // Re-initialize on view transitions
-  document.addEventListener('astro:page-load', initializeNavigation);
+  // Initialize navigation
+  document.addEventListener('DOMContentLoaded', handleNavigation);
+  document.addEventListener('astro:page-load', handleNavigation);
 </script>
-
-<style>
-  .nav-select-wrapper {
-    margin: 1rem 0;
-  }
-
-  .nav-select {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: transparent;
-    width: 200px;
-    max-width: 100%;
-  }
-
-  .nav-select:focus {
-    outline: 2px solid #4a90e2;
-    outline-offset: 2px;
-  }
-
-  /* Dark mode support */
-  :global(html.dark) .nav-select {
-    color: #f0f0f0;
-    border-color: #444;
-    background-color: #2a2a2a;
-  }
-
-  :global(html.dark) .nav-select option {
-    background-color: #2a2a2a;
-  }
-</style>

@@ -1,39 +1,139 @@
 ---
-let theme = 'light';
-if (typeof localStorage !== 'undefined') {
-  theme = localStorage.getItem('theme') || 'light';
-}
+// Initial theme setup
+const theme = (typeof localStorage !== 'undefined') 
+    ? localStorage.getItem('theme') || 'light'
+    : 'light';
 ---
 
 <button
     id="themeToggle"
-    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    class="theme-toggle"
+    aria-label="Toggle color theme"
 >
-    {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+    <svg 
+        id="sun-icon"
+        class="icon sun"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path 
+            stroke-linecap="round" 
+            stroke-linejoin="round" 
+            stroke-width="2" 
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+        />
+    </svg>
+
+    <svg
+        id="moon-icon"
+        class="icon moon"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+    >
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+        />
+    </svg>
 </button>
 
 <style>
-    /* Simple styling */
-    button {
-        cursor: pointer; /* Indicate it's clickable */
-        margin-bottom: 1rem; /* Add some space below the button*/
+    .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .theme-toggle:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #f8f8f8;
+    }
+
+    .theme-toggle:focus {
+        outline: none;
+        ring: 2px solid #3b82f6;
+    }
+
+    .icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .sun {
+        color: #f59e0b;
+        opacity: 1;
+    }
+
+    .moon {
+        color: #3b82f6;
+        opacity: 0;
+    }
+
+    /* Dark mode styles */
+    :global(html.dark) .theme-toggle {
+        background-color: #1f2937;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    :global(html.dark) .theme-toggle:hover {
+        background-color: #374151;
+    }
+
+    :global(html.dark) .sun {
+        opacity: 0;
+    }
+
+    :global(html.dark) .moon {
+        opacity: 1;
+        color: #e5e7eb;
     }
 </style>
 
 <script is:inline>
     const themeToggle = document.querySelector('#themeToggle');
     const html = document.querySelector('html');
+    
+    // Theme management
     let currentTheme = localStorage.getItem('theme') || 'light';
 
-    // Set initial theme
-    html.classList.add(currentTheme);
-    themeToggle.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
-
-    themeToggle.addEventListener('click', () => {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    function updateTheme() {
         html.classList.remove('light', 'dark');
         html.classList.add(currentTheme);
+    }
+
+    // Initialize theme
+    updateTheme();
+
+    // Event listeners
+    themeToggle.addEventListener('click', () => {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
         localStorage.setItem('theme', currentTheme);
-        themeToggle.textContent = currentTheme === 'light' ? 'Dark Mode' : 'Light Mode';
+        updateTheme();
+    });
+
+    // Handle system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+            currentTheme = e.matches ? 'dark' : 'light';
+            updateTheme();
+        }
     });
 </script>

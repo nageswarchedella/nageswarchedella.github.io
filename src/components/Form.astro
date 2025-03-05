@@ -2,55 +2,81 @@
 const currentPath = Astro.url.pathname;
 ---
 
-<select class="p-1" aria-label="Navigation menu" data-current-path={currentPath}>
-  <option value="/">Home</option>
-  <option value="/badges">Badges</option>
-  <option value="/blogs">Blogs</option>
-
-  <!-- <option value="/about">About</option>
-  <option value="/contact">Contact</option> -->
-</select>
+<div class="nav-select-wrapper">
+  <select 
+    class="nav-select p-1" 
+    aria-label="Navigation menu" 
+    data-current-path={currentPath}
+  >
+    <option value="/" selected={currentPath === "/"}>Home</option>
+    <option value="/badges" selected={currentPath === "/badges"}>Badges</option>
+    <option value="/blogs" selected={currentPath === "/blogs"}>Blogs</option>
+  </select>
+</div>
 
 <script>
   import { navigate } from 'astro:transitions/client';
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const selectElement = document.querySelector('select');
-    if (!selectElement) return;
-
-    const currentPath = selectElement.dataset.currentPath;
-
-    // Set initial selected option
-    const options = selectElement.options;
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].value === currentPath) {
-        options[i].selected = true;
-        break;
-      }
+  function initializeNavigation() {
+    const selectElement = document.querySelector('.nav-select') as HTMLSelectElement;
+    if (!selectElement) {
+      console.error('Navigation select element not found');
+      return;
     }
 
+    // Set initial value from URL
+    const currentPath = window.location.pathname;
+    selectElement.value = currentPath;
+
     // Handle navigation
-    selectElement.addEventListener('change', (event) => {
+    selectElement.addEventListener('change', async (event) => {
       const target = event.target as HTMLSelectElement;
       const href = target.value;
-      navigate(href);
+      try {
+        await navigate(href);
+      } catch (error) {
+        console.error('Navigation failed:', error);
+        // Reset to current path if navigation fails
+        selectElement.value = currentPath;
+      }
     });
-  });
+  }
+
+  // Initialize on DOM load
+  document.addEventListener('DOMContentLoaded', initializeNavigation);
+  // Re-initialize on view transitions
+  document.addEventListener('astro:page-load', initializeNavigation);
 </script>
 
 <style>
-  select {
+  .nav-select-wrapper {
+    margin: 1rem 0;
+  }
+
+  .nav-select {
     border: 1px solid #ccc;
     border-radius: 4px;
     padding: 0.5rem;
     font-size: 1rem;
     cursor: pointer;
     background-color: transparent;
+    width: 200px;
+    max-width: 100%;
+  }
+
+  .nav-select:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
   }
 
   /* Dark mode support */
-  :global(html.dark) select {
+  :global(html.dark) .nav-select {
     color: #f0f0f0;
     border-color: #444;
+    background-color: #2a2a2a;
+  }
+
+  :global(html.dark) .nav-select option {
+    background-color: #2a2a2a;
   }
 </style>

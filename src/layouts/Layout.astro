@@ -1,83 +1,130 @@
 ---
-import ThemeToggle from '../components/ThemeToggle.astro';
-import Form from "../components/Form.astro";
-
 interface Props {
-    title: string;
-    includeToggle?: boolean;
-    includeTheme?: boolean;
-    includeLayoutBody?: boolean;
+  title: string;
+  includeToggle?: boolean;
+  includeTheme?: boolean;
 }
 
-const { title, includeToggle = true, includeTheme = true, includeLayoutBody = true} = Astro.props;
+const { title, includeTheme = true } = Astro.props;
+import "../../base.css";
 ---
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content="Astro description" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{title}</title>
-    </head>
-    <body>
-        {includeToggle && <Form />}
-        {includeTheme && <ThemeToggle />}
-        {includeLayoutBody ? <main><slot /></main> : <slot />}
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Nageswar Chedella Website" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="navigation">
+      <a href="/" class="text-center">Home</a>
+      <a href="/blogs" class="text-center">Blogs</a>
+      <a href="/badges" class="text-center">Badges</a>
+      <a href="/education" class="text-center">Education</a>
+      <a href="/experience" class="text-center">Experience</a>
+    </div>
+    <main>
+      <slot />
+    </main>
+  </body>
 </html>
 
 <style is:global>
-    :root {
-        --accent: 136, 58, 234;
-        --accent-light: 224, 204, 250;
-        --accent-dark: 49, 10, 101;
-        --accent-gradient: linear-gradient(
-            45deg,
-            rgb(var(--accent)),
-            rgb(var(--accent-light)) 30%,
-            white 60%
-        );
-    }
-    html.dark {
-        color: #f0f0f0;
-        background: #13151a;	
-    }
-    html.dark a {
-        color: #f0f0f0;
-    }
-    html.light {
-        background: #f0f0f0;
-    }
-    html.light a {
-        color: blue;
-    }
-    html.light a:visited {
-        color: forestgreen;
-        text-decoration-color: hotpink;
-    }
-    code {
-        font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
-    }
-    a {
-        text-decoration: underline;
-    }
-    main {
-        margin: auto;
-        padding: 1rem;
-        width: 800px;
-        max-width: calc(100% - 2rem);
-        font-size: 20px;
-        line-height: 1.6;
-    }
+  :root {
+    --accent: 136, 58, 234;
+    --accent-light: 224, 204, 250;
+    --accent-dark: 49, 10, 101;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      rgb(var(--accent-light)) 30%,
+      white 70%
+    );
+  }
+  html.dark {
+    color: #f0f0f0;
+    background: #13151a;
+  }
+  html.dark a {
+    color: #f0f0f0;
+  }
+  html.light {
+    background: #f0f0f0;
+  }
+  html.light a {
+    color: #a6c4a8;
+  }
+  html.light a:visited {
+    color: rgb(113, 183, 113);
+    text-decoration-color: hotpink;
+  }
+  code {
+    font-family:
+      Inter,
+      sans-serif,
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+  main {
+    margin: auto;
+    padding: 1rem;
+    width: 800px;
+    max-width: calc(100% - 2rem);
+    font-size: 20px;
+    border-radius: 0.5rem;
+    box-shadow: #c0cec6 0px 0px 10px;
+    line-height: 1.6;
+    background: #fff;
+  }
+  body {
+    margin: 1rem auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 1rem;
+    box-shadow: #c0cec6 0px 0px 10px;
+    border-radius: 0.5rem;
+    max-width: calc(100% - 2rem);
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  .navigation {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f2f2f2;
+    border: #c0cec6 1px solid;
+    border-radius: 0.5rem;
+    box-shadow: #c0cec6 0px 0px 10px;
+  }
+  .navigation a {
+    padding: 0.2rem;
+    font-size: 1.2rem;
+    color: #000;
+    text-decoration: none;
+  }
+  .navigation a:hover {
+    background-color: #e0f2fe;
+    color: #000;
+    border-radius: 0.5rem;
+    text-align: center;
+    box-shadow: #8bdcaa 0px 0px 10px;
+    transition: all 0.3s ease;
+  }
 </style>

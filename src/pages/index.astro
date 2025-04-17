@@ -1,17 +1,28 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Education from '../components/education.astro';
-import Experience from '../components/experience.astro';
+import Layout from "../layouts/Layout.astro";
+import "../../base.css";
 ---
 
 <Layout title="Nageswar Chedella">
+  <p class="p-1">
+    Hi, I am Nageswar Chedella. I am a Software engineer @PalTech
+  </p>
+  <p class="italic">This website is work in progress!</p>
+  Check out my <a href="/badges" class="p-1 text-blue-300">badges</a> and <a
+    href="/blogs"
+    class="p-1 text-blue-300">blogs</a
+  >.
 
-	<p class="p-1">Hi, I am Nageswar Chedella. I am a Software engineer.</p>
-	Check out my <a href="/badges" class="p-1">badges</a> and <a href="/blogs" class="p-1">blogs</a>.
-	<Experience styles="p-1"/>
-	<Education styles="p-1" />
-
-	<p>Till then you can check my <a href="https://bit.ly/nageswar" target="_blank">previous website</a> or <a href="https://www.linkedin.com/in/nageswarchedella/" target="_blank">LinkedIn</a> profile.</p>
-
-
+  <p>
+    Till then you can check my <a
+      href="https://bit.ly/nageswar"
+      target="_blank"
+      class="text-blue-300 hover:text-green-300 hover:underline"
+      >previous website</a
+    > or <a
+      href="https://www.linkedin.com/in/nageswarchedella/"
+      target="_blank"
+      class="text-blue-300 hover:text-green-300 hover:underline">LinkedIn</a
+    > profile.
+  </p>
 </Layout>

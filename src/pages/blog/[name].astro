@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -9,29 +10,29 @@ export async function getStaticPaths() {
     props: { post },
   }));
 }
+
 // 2. For your template, you can get the entry directly from the prop
 interface Props {
   post: CollectionEntry<"blog">;
 }
 const { post } = Astro.props as Props;
 const { Content } = await render(post);
+
 // --- Helper to format the date ---
 function formatDate(dateString: string | Date | undefined): string {
   if (!dateString) return "";
   try {
-    // Ensure dateString is treated correctly, especially if it's just YYYY-MM-DD
     const date = new Date(
       dateString instanceof Date ? dateString : `${dateString}T00:00:00`
     );
     return date.toLocaleDateString("en-US", {
-      // Adjust locale and options as needed
       year: "numeric",
       month: "long",
       day: "numeric",
     });
   } catch (e) {
     console.error("Error formatting date:", dateString, e);
-    return String(dateString); // Fallback to original string if formatting fails
+    return String(dateString); // Fallback to original string
   }
 }
 const displayDate = formatDate(post.data.date);
@@ -39,34 +40,19 @@ const displayDate = formatDate(post.data.date);
 ---
 
 <Layout title={post.data.title}>
-  <article class="markdown-content prose prose-invert max-w-none">
-    <div class="text-center mb-8">
-      {/* Container for centered title and date */}
-      <h1 class="text-3xl font-bold mb-2">{post.data.title}</h1>
-
-      {/* Display the formatted date if it exists */}
+  <article class="prose lg:prose-lg dark:prose-invert mx-auto">
+    <div class="mb-8 border-b border-gray-200 dark:border-gray-700 pb-4">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2 !leading-tight">
+        {post.data.title}
+      </h1>
       {
         displayDate && (
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            {displayDate}
+            Published on {displayDate}
           </p>
         )
       }
     </div>
-
     <Content />
   </article>
 </Layout>
-
-<style>
-  /* Optional: Add specific styles just for blog posts here, */
-  /* but general markdown styles are better in global.css or Layout.astro */
-  /* Example using :global() if styles are in this file */
-  :global(.markdown-content p) {
-    /* Styles specific to paragraphs within markdown-content */
-    /* line-height: 1.8; */
-  }
-  :global(html.dark .markdown-content p) {
-    /* Dark mode overrides */
-  }
-</style>

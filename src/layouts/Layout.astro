@@ -27,11 +27,31 @@ import "../../base.css";
   </head>
   <body>
     <div class="navigation">
-      <a href="/" class="text-center">Home</a>
-      <a href="/blogs" class="text-center">Blogs</a>
-      <a href="/badges" class="text-center">Badges</a>
-      <a href="/education" class="text-center">Education</a>
-      <a href="/experience" class="text-center">Experience</a>
+      <a
+        href="/"
+        class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
+        >Home</a
+      >
+      <a
+        href="/blogs"
+        class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
+        >Blogs</a
+      >
+      <a
+        href="/badges"
+        class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
+        >Badges</a
+      >
+      <a
+        href="/education"
+        class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
+        >Education</a
+      >
+      <a
+        href="/experience"
+        class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
+        >Experience</a
+      >
     </div>
     <main>
       <slot />
@@ -112,19 +132,5 @@ import "../../base.css";
     border: #c0cec6 1px solid;
     border-radius: 0.5rem;
     box-shadow: #c0cec6 0px 0px 10px;
-  }
-  .navigation a {
-    padding: 0.2rem;
-    font-size: 1.2rem;
-    color: #000;
-    text-decoration: none;
-  }
-  .navigation a:hover {
-    background-color: #e0f2fe;
-    color: #000;
-    border-radius: 0.5rem;
-    text-align: center;
-    box-shadow: #8bdcaa 0px 0px 10px;
-    transition: all 0.3s ease;
   }
 </style>

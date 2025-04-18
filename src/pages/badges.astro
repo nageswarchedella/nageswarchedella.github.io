@@ -1,8 +1,9 @@
 ---
-const iframeWidth = 300;
+const iframeWidth = 200;
 const iframeHeight = 270;
 const badgeHost = "https://www.credly.com";
 const badgeIds = [
+  "23523846-e449-45a4-bced-87d74be471e9",
   "2c96222f-dc78-4597-a8f4-595130f11972",
   "82782e5b-3869-4b1b-9d4f-f29300d336ef",
   "4afac7a5-a040-47d0-9cb6-bc55f657955b",
@@ -20,25 +21,23 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Badges">
   <div class="container mx-auto p-4">
-    <p class="text-center">Here are some of the badges I have earned.</p>
+    <p class="text-center">Here are some of the badges I have earned:</p>
   </div>
-  <div class="hidden">
-    <div
-      id="badges-grid"
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4"
-    >
-      {
-        badgeIds.map((badgeId) => (
-          <div
-            class="badge"
-            data-iframe-width={iframeWidth}
-            data-iframe-height={iframeHeight}
-            data-share-badge-id={badgeId}
-            data-share-badge-host={badgeHost}
-          />
-        ))
-      }
-    </div>
+  <div
+    id="badges-grid"
+    class="grid grid-cols-1 md:grid-cols-2 justify-items-center place-items-center"
+  >
+    {
+      badgeIds.map((badgeId) => (
+        <div
+          class="badge"
+          data-iframe-width={iframeWidth}
+          data-iframe-height={iframeHeight}
+          data-share-badge-id={badgeId}
+          data-share-badge-host={badgeHost}
+        />
+      ))
+    }
   </div>
 </Layout>
 

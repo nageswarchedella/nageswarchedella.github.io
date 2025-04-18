@@ -1,5 +1,6 @@
 ---
 title: "Comparing Fault Tolerance: \n Elixir (BEAM) vs. NestJS (Node.js)"
+date: 2024-12-27
 ---
 
 Building a highly resilient application often means asking, "What happens when something goes wrong?" In other words, how does your runtime or framework behave when the unexpected occurs &mdash; an unhandled exception, a crashed worker, or a transient network error?

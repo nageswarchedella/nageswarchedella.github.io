@@ -25,8 +25,8 @@ import "../../base.css";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <div class="navigation">
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div class="flex justify-around items-center mb-4">
       <a
         href="/"
         class="text-center p-2 hover:scale-130 hover:shadow-amber-400 hover:text-amber-400 hover:underline"
@@ -110,7 +110,7 @@ import "../../base.css";
     border-radius: 0.5rem;
     box-shadow: #c0cec6 0px 0px 10px;
     line-height: 1.6;
-    background: #fff;
+    background: #2e4c81;
   }
   body {
     margin: 1rem auto;
@@ -119,18 +119,10 @@ import "../../base.css";
     flex-direction: column;
     width: fit-content;
     gap: 1rem;
-    box-shadow: #c0cec6 0px 0px 10px;
+    box-shadow: #4ea071 0px 0px 10px;
     border-radius: 0.5rem;
     max-width: calc(100% - 2rem);
     font-size: 20px;
     line-height: 1.6;
-  }
-  .navigation {
-    display: flex;
-    justify-content: space-around;
-    background-color: #f2f2f2;
-    border: #c0cec6 1px solid;
-    border-radius: 0.5rem;
-    box-shadow: #c0cec6 0px 0px 10px;
   }
 </style>
